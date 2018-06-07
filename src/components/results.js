@@ -17,12 +17,16 @@ const Results = ({ responseData, address }) => {
   }[responseData.icon];
 
   const { summary, precipProbability, precipType, temperatureLow, temperatureHigh } = responseData;
+  const lowestTemp = toCelcius(temperatureLow);
+  const highestTemp = toCelcius(temperatureHigh);
+  const chanceRain = precipProbability * 100;
+
   return (
     <React.Fragment>
       <h2>{`Forecast for ${address}`}</h2>
       <p>{`${emoji} ${summary}`}</p>
-      <p>{`${precipProbability * 100}% chance of ${precipType}`}</p>
-      <p>{`Temperatures between ${toCelcius(temperatureLow)} to ${toCelcius(temperatureHigh)}`}</p>
+      <p>{`${chanceRain}% chance of ${precipType}`}</p>
+      <p>{`Temperatures between ${lowestTemp}°C to ${highestTemp}°C`}</p>
       <h2>Today you should wear...</h2>
     </React.Fragment>
   );
