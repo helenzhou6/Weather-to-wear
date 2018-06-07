@@ -1,5 +1,6 @@
 import React from "react";
 import getAPIData from "../utilities/getAPIData";
+import Results from "./results";
 
 export default class Form extends React.Component {
   state = {
@@ -7,14 +8,15 @@ export default class Form extends React.Component {
       latitude: 37.8267,
       longitude: -122.4233
     },
-    data: null,
+    address: "London",
+    responseData: null,
     error: false
   };
 
   onSubmit = () => {
     const { latitude, longitude } = this.state.location;
     getAPIData(`http://localhost:3001/api/darksky/${latitude}/${longitude}`)
-      .then(res => res === "error" ? this.setState({ error: true }) : this.setState({ data: res.daily, error: false }))
+      .then(res => res === "error" ? this.setState({ error: true }) : this.setState({ responseData: res.daily.data[0], error: false }))
       .catch(err => {
         console.log(`Error with the API request ${err.message}`);
         this.setState({ error: true });
@@ -22,8 +24,8 @@ export default class Form extends React.Component {
   }
 
   render() {
-    const { data, error } = this.state;
-    if (!data) {
+    const { responseData, error, address } = this.state;
+    if (!responseData) {
       return (
         <React.Fragment>
           <input></input>
@@ -32,7 +34,7 @@ export default class Form extends React.Component {
         </React.Fragment>
       );
     } else {
-      return <Result />;
+      return <Results address={address} responseData={responseData} />;
     }
 
   }
