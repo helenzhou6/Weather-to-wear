@@ -1,33 +1,31 @@
 import React from "react";
+import toCelcius from "../utilities/toCelcius";
 
-export default class Results extends React.Component {
-  state = {
+const Results = ({ responseData, address }) => {
 
-    location: {
-      latitude: 42.3601,
-      longitude: -71.0589
-    }
+  const emoji = {
+    "clear-day": "☀️",
+    "clear-night": "🌕",
+    "rain": "☔️",
+    "snow": "❄️",
+    "sleet": "🌨",
+    "wind": "💨",
+    "fog": "🌫",
+    "cloudy": "☁️",
+    "partly-cloudy-day": "🌤",
+    "partly-cloudy-night": "🌙"
+  }[responseData.icon];
 
-  };
+  const { summary, precipProbability, precipType, temperatureLow, temperatureHigh } = responseData;
+  return (
+    <React.Fragment>
+      <h2>{`Forecast for ${address}`}</h2>
+      <p>{`${emoji} ${summary}`}</p>
+      <p>{`${precipProbability * 100}% chance of ${precipType}`}</p>
+      <p>{`Temperatures between ${toCelcius(temperatureLow)} to ${toCelcius(temperatureHigh)}`}</p>
+      <h2>Today you should wear...</h2>
+    </React.Fragment>
+  );
+};
 
-  componentDidMount() {
-    // latitude = 37.8267, longitude = -122.4233
-    fetch("http://localhost:3001/api/darksky/37.8267/-122.4233")
-      .then(response => {
-        if (response.status === 404) {
-          return "not valid user";
-        } else if (response.status !== 200) {
-          console.log(`Error with the request! ${response.status}`);
-          return "error";
-        }
-        return response.json();
-      })
-      .then(response => console.log(response));
-  }
-
-  render() {
-    return (
-      <p>Hello</p>
-    );
-  }
-}
+export default Results;

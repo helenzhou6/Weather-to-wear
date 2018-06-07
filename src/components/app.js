@@ -1,14 +1,13 @@
 import React from "react";
-import Results from "./results";
+import Form from "./form";
 
-export default class App extends React.Component {
-  state = {
-    pageView: "landing",
-  };
+const App = () => {
+  return (
+    <React.Fragment>
+      <h1>Weather to wear..?</h1>
+      <Form />
+    </React.Fragment>
+  );
+};
 
-  render() {
-    return (
-      <Results />
-    );
-  }
-}
+export default App;
