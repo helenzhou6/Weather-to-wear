@@ -4,33 +4,46 @@ import Results from "./results";
 
 export default class Form extends React.Component {
   state = {
-    location: {
-      latitude: 37.8267,
-      longitude: -122.4233
-    },
     address: "London",
     responseData: null,
-    error: false
+    message: ""
   };
 
-  onSubmit = () => {
-    const { latitude, longitude } = this.state.location;
+  getWeather = (latitude, longitude) => {
     getAPIData(`http://localhost:3001/api/darksky/${latitude}/${longitude}`)
-      .then(res => res.error ? this.setState({ error: res.error, responseData: null }) : this.setState({ responseData: res.daily.data[0], error: "" }))
+      .then(res => res.error ? this.addMessage(res.error) : this.setState({ responseData: res.daily.data[0], message: "" }))
       .catch(err => {
         console.log(`Error with the API request to back end server - ${err.message}`);
-        this.setState({ error: "Oops, an error on our end, try again later", responseData: null });
+        this.addMessage("Oops, an error on our end, try again later");
       });
   }
 
+  addMessage = (msg) => {
+    this.setState({ message: msg, responseData: null });
+  }
+
+  onSubmit = () => {
+    const useLocation = ({ coords }) => {
+      this.getWeather(coords.latitude, coords.longitude);
+    };
+    if (navigator.geolocation) {
+      this.addMessage("Loading...");
+      navigator.geolocation.getCurrentPosition(useLocation);
+    } else {
+      this.addMessage("Geolocation is not supported by this browser.");
+    }
+  }
+
   render() {
-    const { responseData, error, address } = this.state;
+    const { responseData, message, address } = this.state;
     if (!responseData) {
       return (
         <React.Fragment>
           <input></input>
-          <button onClick={this.onSubmit}>Submit</button>
-          <p>{error}</p>
+          <button >Submit</button>
+          <p>Or use current location</p>
+          <button onClick={this.onSubmit}>Go</button>
+          <p>{message}</p>
         </React.Fragment>
       );
     } else {
