@@ -26,6 +26,7 @@ export default class Form extends React.Component {
   }
 
   onInputSubmit = () => {
+    this.addMessage("Loading...");
     const formattedAddress = changeSpacesToPlus(this.state.address);
     getAPIData(`http://localhost:3001/api/geolocate/${formattedAddress}`)
       .then(res => {
@@ -44,11 +45,12 @@ export default class Form extends React.Component {
   }
 
   onSubmit = () => {
-    const useLocation = ({ coords }) => {
-      this.getWeather(coords.latitude, coords.longitude);
+    this.addMessage("Loading...");
+    const useLocation = ({ coords: { latitude, longitude } }) => {
+      this.setState({ completeAddress: `latitude: ${latitude}, longitude: ${longitude}` });
+      this.getWeather(latitude, longitude);
     };
     if (navigator.geolocation) {
-      this.addMessage("Loading...");
       navigator.geolocation.getCurrentPosition(useLocation);
     } else {
       this.addMessage("Geolocation is not supported by this browser.");
