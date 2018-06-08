@@ -26,6 +26,25 @@ app.get("/api/darksky/:latitude/:longitude", (req, res) => {
   res.json(dummyData);
 });
 
+app.get("/api/geolocate/:address", (req, res) => {
+  const { address } = req.params;
+  request(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=`, (err, response, body) => {
+    if (err) {
+      console.log(`Error with the API request to Google API - ${err}`);
+      res.json({
+        error: "Oops, an error on our end, try again later"
+      });
+    } else if (body.error_message) {
+      console.log(`Error with the API request to Google API - ${body.error_message}`);
+      res.json({
+        error: "Oops, an error on our end, try again later"
+      });
+    } else {
+      res.send(body);
+    }
+  });
+});
+
 const host = process.env.HOST || "localhost";
 const port = process.env.PORT || 3001;
 

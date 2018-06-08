@@ -6,6 +6,7 @@ import changeSpacesToPlus from "../utilities/changeSpacesToPlus";
 export default class Form extends React.Component {
   state = {
     address: "London",
+    completeAddress: "",
     responseData: null,
     message: ""
   };
@@ -25,18 +26,19 @@ export default class Form extends React.Component {
   }
 
   onInputSubmit = () => {
-    getAPIData(`https://maps.googleapis.com/maps/api/geocode/json?address=${changeSpacesToPlus(this.state.address)}&key=${process.env.API_GOOGLE}`)
+    const formattedAddress = changeSpacesToPlus(this.state.address);
+    getAPIData(`http://localhost:3001/api/geolocate/${formattedAddress}`)
       .then(res => {
-        if (res.error_message) {
-          console.log(`Error with the API request to Google API - ${res.error_message}`);
-          this.addMessage(this.defaultErrorMessage);
+        if (res.error) {
+          this.addMessage(res.error);
         } else {
           const { lat: latitude, lng: longitude } = res.results[0].geometry.location;
+          this.setState({ completeAddress: res.results[0].formatted_address });
           this.getWeather(latitude, longitude);
         }
       })
       .catch(err => {
-        console.log(`Error with the API request to Google API - ${err.message}`);
+        console.log(`Error with the API request to back end server - ${err.message}`);
         this.addMessage(this.defaultErrorMessage);
       });
   }
@@ -54,7 +56,7 @@ export default class Form extends React.Component {
   }
 
   render() {
-    const { responseData, message, address } = this.state;
+    const { responseData, message, address, completeAddress } = this.state;
     if (!responseData) {
       return (
         <React.Fragment>
@@ -68,7 +70,7 @@ export default class Form extends React.Component {
         </React.Fragment>
       );
     } else {
-      return <Results address={address} responseData={responseData} />;
+      return <Results address={completeAddress} responseData={responseData} />;
     }
 
   }
