@@ -13,15 +13,15 @@ app.use(function (_, res, next) {
 
 app.get("/api/darksky/:latitude/:longitude", (req, res) => {
   // const { latitude, longitude } = req.params;
-  // request(`https://api.darksky.net/forecast/${process.env.API_KEY}/${latitude},${longitude}`, (err, _response, body) => {
-  // if (err) {
-  // console.log(`Error with the API request to dark sky ${err}`)
-  //   res.json({
-  //     error: "Oops, an error on our end, try again later"
-  //   });
-  // } else {
-  //   res.json(body);
-  // }
+  // request(`https://api.darksky.net/forecast/${process.env.API_KEY}/${latitude},${longitude}`, (err, response, body) => {
+  //   if (err) {
+  //     console.log(`Error with the API request to dark sky ${err}`);
+  //     res.json({
+  //       error: "Oops, an error on our end, try again later"
+  //     });
+  //   } else {
+  //     res.send(body);
+  //   }
   // });
   res.json(dummyData);
 });
