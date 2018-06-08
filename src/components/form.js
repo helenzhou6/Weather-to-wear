@@ -16,10 +16,10 @@ export default class Form extends React.Component {
   onSubmit = () => {
     const { latitude, longitude } = this.state.location;
     getAPIData(`http://localhost:3001/api/darksky/${latitude}/${longitude}`)
-      .then(res => res === "error" ? this.setState({ error: true }) : this.setState({ responseData: res.daily.data[0], error: false }))
+      .then(res => res.error ? this.setState({ error: res.error, responseData: null }) : this.setState({ responseData: res.daily.data[0], error: "" }))
       .catch(err => {
-        console.log(`Error with the API request ${err.message}`);
-        this.setState({ error: true });
+        console.log(`Error with the API request to back end server - ${err.message}`);
+        this.setState({ error: "Oops, an error on our end, try again later", responseData: null });
       });
   }
 
@@ -30,7 +30,7 @@ export default class Form extends React.Component {
         <React.Fragment>
           <input></input>
           <button onClick={this.onSubmit}>Submit</button>
-          <p>{error ? "There was an error with the request, try again later" : ""}</p>
+          <p>{error}</p>
         </React.Fragment>
       );
     } else {
