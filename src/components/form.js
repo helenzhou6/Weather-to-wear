@@ -10,12 +10,38 @@ const YourLocation__icon = styled.img`
   width: 1rem;
   display: inline-block;
 `;
+
+const Message = styled.p`
+  font-size: 1.2rem;
+  margin-top: 1rem;
+`;
+
+const Input = styled.input`
+  border: none;
+  border-bottom: 3px solid grey;
+  width: 80%;
+  font-family: inherit;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: .2rem 0 .5rem;
+  padding: .5rem;
+
+  &:focus {
+    outline: none;
+    border: none;
+    border-bottom: 3px solid orange;
+  }
+`;
+
 const YourLocationSection = styled.div`
   width: 100%;
 `;
-const Input__label = styled.label`
+
+const Input__text = styled.label`
   font-weight: 300;
   width: 100%;
+  text-transform: uppercase;
+  letter-spacing: .07rem;
   display: block;
   font-size: .8rem;
 `;
@@ -27,13 +53,18 @@ const YouLocation__text = styled.span`
   padding-left: .4rem;
 `;
 
-const Bold = styled.span`
+const Input__arrow = styled.span`
   font-weight: 900;
+  width: calc(5% - .5rem);
+  color: orange;
+  &:focus, &:hover {
+    opacity: .8;
+  }
 `;
 
 export default class Form extends React.Component {
   state = {
-    address: "London",
+    address: "",
     completeAddress: "",
     responseData: null,
     message: ""
@@ -53,7 +84,8 @@ export default class Form extends React.Component {
     this.setState({ message: msg, responseData: null });
   }
 
-  onInputSubmit = () => {
+  onInputSubmit = (e) => {
+    e.preventDefault();
     this.addMessage("Loading...");
     const formattedAddress = changeSpacesToPlus(this.state.address);
     getAPIData(`http://localhost:3001/api/geolocate/${formattedAddress}`)
@@ -75,7 +107,7 @@ export default class Form extends React.Component {
   onSubmit = () => {
     this.addMessage("Loading...");
     const useLocation = ({ coords: { latitude, longitude } }) => {
-      this.setState({ completeAddress: `latitude: ${latitude}, longitude: ${longitude}` });
+      this.setState({ completeAddress: "your current location", address: "Current Location" });
       this.getWeather(latitude, longitude);
     };
     if (navigator.geolocation) {
@@ -87,25 +119,29 @@ export default class Form extends React.Component {
 
   render() {
     const { responseData, message, address, completeAddress } = this.state;
-    if (!responseData) {
-      return (
-        <React.Fragment>
-          <label><Input__label>Enter a location:</Input__label>
-            <input id="address-input" value={address} onChange={e => this.setState({ address: e.target.value })} />
+    const result = responseData ? < Results address={completeAddress} responseData={responseData} /> : "";
+    // if (!responseData) {
+    return (
+      <React.Fragment>
+        <form>
+          <label><Input__text>Enter a location:</Input__text>
+            <Input type="text" autocomplete="off" id="address-input" value={address} onChange={e => this.setState({ address: e.target.value, responseData: null })} />
           </label>
-          <Button onClick={this.onInputSubmit}><Bold>⟶</Bold></Button>
-          <YourLocationSection>
-            <Button onClick={this.onSubmit}>
-              <YourLocation__icon src={locationIcon} alt="Location icon" />
-              <YouLocation__text>Use current location</YouLocation__text>
-            </Button>
-          </YourLocationSection>
-          <p>{message}</p>
-        </React.Fragment>
-      );
-    } else {
-      return <Results address={completeAddress} responseData={responseData} />;
-    }
+          <Button onClick={(e) => this.onInputSubmit(e)} onKeyPress={(e) => e.key === "Enter" ? this.onInputSubmit(e) : null}><Input__arrow>⟶</Input__arrow></Button>
+        </form>
+        <YourLocationSection>
+          <Button onClick={this.onSubmit}>
+            <YourLocation__icon src={locationIcon} alt="Location icon" />
+            <YouLocation__text>Use current location</YouLocation__text>
+          </Button>
+        </YourLocationSection>
+        <Message>{message}</Message>
+        {result}
+      </React.Fragment >
+    );
+    // } else {
+    // return;
+    // }
 
   }
 }

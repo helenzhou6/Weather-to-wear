@@ -18,11 +18,13 @@ const SubTitle = styled.p`
 `;
 
 const Wrapper = styled.div`
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  min-height: 90vh;
-  justify-content: center;
+  margin: 4rem auto;
+  /* display: flex; */
+  /* align-items: center; */
+  /* min-height: 90vh; */
+  /* justify-content: center; */
+  width: 80%;
+  max-width: 30rem;
 `;
 
 const App = () => {
