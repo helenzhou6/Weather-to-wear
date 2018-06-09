@@ -7,7 +7,7 @@ Made in my spare time in less than a week.
 ## How to run locally
 You will require registering and getting unique API keys with the [Darksky API](https://darksky.net/dev/) and [Google Geolocation API](https://developers.google.com/maps/documentation/geocoding/intro)..
 
-1. Open your terminal
+1. Open your terminal.
 2. Clone this repo by running `git clone https://github.com/helenzhou6/Weather-to-wear.git`
 3. Open the file in your text editor, add a file called `.env` and add the following:
 ```
@@ -15,8 +15,9 @@ export API_KEY=[Add API Key for Dark Sky here]
 export API_GOOGLE=[Add API Key for Google geolocation here]
 ```
 4. Open your terminal and change directories to the `Weather-to-wear` folder.
-5. Run `npm run install:all` to install the required modules.
-6. Run `npm run start`, and wait until the `Built in ...s` message appears. (NB: Should this fail, run `npm run start:server` and then open another terminal window and run `npm run start:client`
+5. Run `npm i` to install the required modules.
+5. Run `npm run install:server` to install the required modules for the back end server.
+6. Run `npm run start`, and wait until the `Built in ...s` message appears. (NB: Should this fail, run `npm run start:server` and then open another terminal window and run `npm run start:client`)
 7. View the site at `http://localhost:1234`
 
 ## Tech Stack
