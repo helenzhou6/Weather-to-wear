@@ -5,9 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "parcel public/index.html",
+    "start:client": "parcel public/index.html",
     "build": "parcel build public/index.html",
-    "lint": "./node_modules/.bin/eslint **/*.js"
+    "lint": "./node_modules/.bin/eslint **/*.js",
+    "start:server": "cd server && npm start",
+    "start": "concurrently --kill-others-on-fail \"npm run start:server\" \"npm run start:client\""
   },
   "repository": {
     "type": "git",
@@ -28,6 +30,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
+    "concurrently": "^3.5.1",
     "env2": "^2.2.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
@@ -39,6 +42,7 @@
     "pre-commit": "^1.2.2"
   },
   "dependencies": {
+    "express": "^4.16.3",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
     "styled-components": "^3.3.0"

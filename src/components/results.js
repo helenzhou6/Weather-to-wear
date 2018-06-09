@@ -34,7 +34,7 @@ const Results = ({ responseData, address }) => {
 
   return (
     <React.Fragment>
-      <Subtitle>Today's forecast</Subtitle>
+      <Subtitle>Today&#39;s forecast</Subtitle>
       <MainText>For {address}:</MainText>
       <MainText>{icon ? genEmoji(icon) : ""} {summary} • {chanceRain}% chance of {typeOfPercip} • Temperatures between {lowestTemp}°C to {highestTemp}°C</MainText>
       <Subtitle>Recommendation</Subtitle>

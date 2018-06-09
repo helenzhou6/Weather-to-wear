@@ -25,6 +25,7 @@ const Input = styled.input`
   font-weight: 700;
   margin: .2rem 0 .5rem;
   padding: .5rem;
+  background-color: transparent;
 
   &:focus {
     outline: none;
