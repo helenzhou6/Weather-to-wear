@@ -2,6 +2,34 @@ import React from "react";
 import getAPIData from "../utilities/getAPIData";
 import Results from "./results";
 import changeSpacesToPlus from "../utilities/changeSpacesToPlus";
+import styled from "styled-components";
+import { Button } from "./styled/button";
+import locationIcon from "../../public/assets/arrow.svg";
+
+const YourLocation__icon = styled.img`
+  width: 1rem;
+  display: inline-block;
+`;
+const YourLocationSection = styled.div`
+  width: 100%;
+`;
+const Input__label = styled.label`
+  font-weight: 300;
+  width: 100%;
+  display: block;
+  font-size: .8rem;
+`;
+
+const YouLocation__text = styled.span`
+  font-size: .8rem;
+  width: 100%;
+  text-decoration: underline;
+  padding-left: .4rem;
+`;
+
+const Bold = styled.span`
+  font-weight: 900;
+`;
 
 export default class Form extends React.Component {
   state = {
@@ -62,12 +90,16 @@ export default class Form extends React.Component {
     if (!responseData) {
       return (
         <React.Fragment>
-          <label>Input address:
-          <input id="address-input" value={address} onChange={e => this.setState({ address: e.target.value })} />
+          <label><Input__label>Enter a location:</Input__label>
+            <input id="address-input" value={address} onChange={e => this.setState({ address: e.target.value })} />
           </label>
-          <button onClick={this.onInputSubmit}>Submit</button>
-          <p>Or use current location</p>
-          <button onClick={this.onSubmit}>Go</button>
+          <Button onClick={this.onInputSubmit}><Bold>⟶</Bold></Button>
+          <YourLocationSection>
+            <Button onClick={this.onSubmit}>
+              <YourLocation__icon src={locationIcon} alt="Location icon" />
+              <YouLocation__text>Use current location</YouLocation__text>
+            </Button>
+          </YourLocationSection>
           <p>{message}</p>
         </React.Fragment>
       );
