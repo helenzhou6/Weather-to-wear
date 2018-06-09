@@ -10,7 +10,8 @@
     "lint": "./node_modules/.bin/eslint **/*.js",
     "start:server": "cd server && npm start",
     "start": "concurrently --kill-others-on-fail \"npm run start:server\" \"npm run start:client\"",
-    "install:server": "cd server && npm i"
+    "install:server": "cd server && npm i",
+    "deploy": "concurrently --kill-others-on-fail \"npm run install:server\" \"npm start\""
   },
   "repository": {
     "type": "git",
