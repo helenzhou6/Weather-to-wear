@@ -1,8 +1,8 @@
 # Weather-to-wear
 
-A little web app made in React. Service that recommends clothing based on the current weather.
+A little web app made in React. Service that recommends clothing based on the current weather. View it [here](https://weather-to-wear.netlify.com/).
 
-Made in my spare time in less than a week.
+Made in my spare time over five days.
 
 ## How to run locally
 You will require registering and getting unique API keys with the [Darksky API](https://darksky.net/dev/) and [Google Geolocation API](https://developers.google.com/maps/documentation/geocoding/intro)..
@@ -18,7 +18,7 @@ export API_GOOGLE=[Add API Key for Google geolocation here]
 5. Run `npm i` to install the required modules.
 5. Run `npm run install:server` to install the required modules for the back end server.
 6. Run `npm run start`, and wait until the `Built in ...s` message appears. (NB: Should this fail, run `npm run start:server` and then open another terminal window and run `npm run start:client`)
-7. View the site at `http://localhost:1234`
+7. View the site at `http://localhost:1234`.
 
 ## Tech Stack
 
