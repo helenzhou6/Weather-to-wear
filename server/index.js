@@ -1,12 +1,12 @@
 const express = require("express");
 const request = require("request");
-const env = require("env2")("../.env");
+const env = require("env2")("./.env");
 const path = require("path");
 
 const app = express();
 
 app.use(function (_, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:1234");
+  res.header("Access-Control-Allow-Origin", "http://localhost:8000");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
