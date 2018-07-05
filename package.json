@@ -6,11 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:client": "parcel public/index.html",
-    "build": "parcel build public/index.html",
+    "build": "NODE_ENV=production parcel build public/index.html",
     "lint": "./node_modules/.bin/eslint **/*.js",
-    "start:server": "cd server && npm start",
-    "start": "concurrently --kill-others-on-fail \"npm run start:server\" \"npm run start:client\"",
-    "install:server": "cd server && npm i"
+    "start": "node ./server/index.js",
+    "build:client:watch": "NODE_ENV=development parcel watch ./public/index.html",
+    "start:all": "npm run build && npm run start",
+    "start:server:watch": "nodemon server/index.js",
+    "heroku-postbuild": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -31,21 +33,22 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
-    "concurrently": "^3.5.1",
-    "env2": "^2.2.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-recommended": "^2.0.0",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.8.2",
+    "nodemon": "^1.17.5",
     "parcel-bundler": "^1.8.1",
     "pre-commit": "^1.2.2"
   },
   "dependencies": {
-    "express": "^4.16.3",
     "react": "^16.4.0",
+    "env2": "^2.2.2",
     "react-dom": "^16.4.0",
-    "styled-components": "^3.3.0"
+    "express": "^4.16.3",
+    "styled-components": "^3.3.0",
+    "request": "^2.87.0"
   }
 }
