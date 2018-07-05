@@ -73,8 +73,10 @@ export default class Form extends React.Component {
   defaultErrorMessage = "Oops, something went wrong on our end, try again later.";
 
   getWeather = (latitude, longitude) => {
-    getAPIData(`http://localhost:3001/api/darksky/${latitude}/${longitude}`)
-      .then(res => res.error ? this.addMessage(res.error) : this.setState({ responseData: res.daily.data[0], message: "" }))
+    getAPIData(`http://localhost:8000/api/darksky/${latitude}/${longitude}`)
+      .then(res => {
+        res.error ? this.addMessage(res.error) : this.setState({ responseData: res.daily.data[0], message: "" });
+      })
       .catch(err => {
         console.log(`Error with the API request to back end server - ${err.message}`);
         this.addMessage(this.defaultErrorMessage);
@@ -89,7 +91,7 @@ export default class Form extends React.Component {
     e.preventDefault();
     this.addMessage("Loading...");
     const formattedAddress = changeSpacesToPlus(this.state.address);
-    getAPIData(`http://localhost:3001/api/geolocate/${formattedAddress}`)
+    getAPIData(`http://localhost:8000/api/geolocate/${formattedAddress}`)
       .then(res => {
         if (res.error) {
           this.addMessage(res.error);

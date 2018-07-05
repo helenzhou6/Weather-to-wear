@@ -1,14 +1,17 @@
 const express = require("express");
 const request = require("request");
-const env = require("env2")("../.env");
+const env = require("env2")("./.env");
+const path = require("path");
 
 const app = express();
 
 app.use(function (_, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:1234");
+  res.header("Access-Control-Allow-Origin", "http://localhost:8000");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
+app.use(express.static(path.join(__dirname, "..", "dist")));
 
 app.get("/api/darksky/:latitude/:longitude", (req, res) => {
   const { latitude, longitude } = req.params;
@@ -43,8 +46,12 @@ app.get("/api/geolocate/:address", (req, res) => {
   });
 });
 
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "dist", "index.html"));
+});
+
 const host = process.env.HOST || "localhost";
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 8000;
 
 app.listen(port, () => {
   console.log(`app is running on http://${host}:${port}`);
